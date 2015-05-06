@@ -1,0 +1,33 @@
+<?xml version="1.0" ?>
+<dataset>
+
+	<!-- single -->
+    <beaucal_union item="32489376-607f-4cbe-b6c1-028d4f2f7d09" set="32489376-607f-4cbe-b6c1-028d4f2f7d09" />
+	
+	<!-- pair -->
+    <beaucal_union item="eceeb0aa-81a7-45a9-b79b-5dcd9be3f93a" set="a8c7bb41-0253-4c31-b83b-2fb6b9051ed5" />
+    <beaucal_union item="a8c7bb41-0253-4c31-b83b-2fb6b9051ed5" set="a8c7bb41-0253-4c31-b83b-2fb6b9051ed5" />
+	
+	<!-- chain -->
+    <beaucal_union item="3d2213cc-b962-48e4-8024-6e443696dd08" set="6757ce41-567e-4179-8799-e3626e35ce0f" />
+    <beaucal_union item="6757ce41-567e-4179-8799-e3626e35ce0f" set="ed840555-96b4-4e9f-9cb1-675ac16aa720" />
+    <beaucal_union item="ed840555-96b4-4e9f-9cb1-675ac16aa720" set="ed840555-96b4-4e9f-9cb1-675ac16aa720" />
+	
+	<!-- simplest tree -->
+    <beaucal_union item="f77e3765-6f7c-4ce2-9936-f46aab7623a1" set="843fbd4d-c343-477a-b933-c9dbeda2aead" />
+    <beaucal_union item="a01d6676-dbc3-469b-a0c7-4ca9906d90cf" set="843fbd4d-c343-477a-b933-c9dbeda2aead" />
+    <beaucal_union item="843fbd4d-c343-477a-b933-c9dbeda2aead" set="843fbd4d-c343-477a-b933-c9dbeda2aead" />
+	
+	<!-- full tree -->
+    <beaucal_union item="f74097e2-3441-4be8-a133-a78fed262329" set="a78a9267-94fa-4549-aead-14b402cfd863" />
+    <beaucal_union item="6d6cd371-1ea5-4008-8881-335fe5d7c858" set="a78a9267-94fa-4549-aead-14b402cfd863" />
+    <beaucal_union item="b0f917cf-cfa4-41fb-8114-0dd1f6c2443d" set="9a30799b-d319-4807-acfb-d1922ea7f35c" />
+    <beaucal_union item="cfcd32a2-6225-40b6-9cd9-447c1dcfa8f7" set="9a30799b-d319-4807-acfb-d1922ea7f35c" />
+    <beaucal_union item="a78a9267-94fa-4549-aead-14b402cfd863" set="45634413-9586-4ffa-af25-3782a79ed2a3" />
+    <beaucal_union item="9a30799b-d319-4807-acfb-d1922ea7f35c" set="45634413-9586-4ffa-af25-3782a79ed2a3" />
+    <beaucal_union item="45634413-9586-4ffa-af25-3782a79ed2a3" set="45634413-9586-4ffa-af25-3782a79ed2a3" />
+	
+	<!-- separate -->
+    <beaucal_union item="ca9ab71c-c9fd-418f-8f59-e392cd62a1ab" set="ca9ab71c-c9fd-418f-8f59-e392cd62a1ab" />
+    <beaucal_union item="06d631c5-55fd-433f-9ba0-c6e0fc156dd4" set="06d631c5-55fd-433f-9ba0-c6e0fc156dd4" />
+</dataset>
