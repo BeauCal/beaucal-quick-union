@@ -34,6 +34,7 @@ echo $union->query('AAA') == $union->query('BBB'); // TRUE
 echo $union->query('BBB') == $union->query('ZZZ'); // FALSE
 
 $union->union(new Strategy\Random('AAA', 'ZZZ'));
+echo $union->query('AAA'); // either 'BBB' or 'ZZZ', random
 echo $union->query('BBB') == $union->query('ZZZ'); // TRUE
 ```
 
