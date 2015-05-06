@@ -4,7 +4,6 @@ namespace BeaucalQuickUnion\Service;
 
 use BeaucalQuickUnion\Order\Strategy;
 use BeaucalQuickUnion\Adapter\AdapterInterface as UnionAdapterInterface;
-use BeaucalQuickUnion\Exception\RuntimeException;
 
 class Union {
 
@@ -39,11 +38,12 @@ class Union {
 
     /**
      * @param string $item
-     * @return string       Set identifier
+     * @return mixed         String set identifier or null on blank input
      */
     public function query($item) {
+        $item = (string) $item;
         if (strlen($item) == 0) {
-            throw new RuntimeException('query must be given a value');
+            return null;
         }
 
         /**

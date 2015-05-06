@@ -9,6 +9,9 @@ use BeaucalQuickUnion\Exception\RuntimeException;
  */
 class Directed {
 
+    /**
+     * @var string
+     */
     protected $item1;
     protected $item2;
 
@@ -17,8 +20,8 @@ class Directed {
      * @param string $item2
      */
     public function __construct($item1, $item2) {
-        $this->item1 = $item1;
-        $this->item2 = $item2;
+        $this->item1 = (string) $item1;
+        $this->item2 = (string) $item2;
         $this->invariant();
     }
 
@@ -33,6 +36,11 @@ class Directed {
         if (!strlen($this->item1) || !strlen($this->item2)) {
             throw new RuntimeException('item is blank');
         }
+        if (!is_string($this->item1) || !is_string($this->item2)) {
+            // @codeCoverageIgnoreStart
+            throw new RuntimeException('item is not a string');
+        }
+        // @codeCoverageIgnoreEnd
     }
 
 }

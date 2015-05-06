@@ -32,10 +32,3 @@ echo $union->query('BBB') == $union->query('ZZZ'); // FALSE
 $union->union('AAA', 'ZZZ');
 echo $union->query('BBB') == $union->query('ZZZ'); // TRUE
 ```
-
-
-If you need completely separate union spaces, item names should be prefixed.
-```PHP
-$union->union('space1::AAA', 'space1::BBB');
-$union->union('space2::AAA', 'space2::BBB');
-```

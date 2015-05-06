@@ -222,12 +222,18 @@ class UnionTest extends \PHPUnit_Extensions_Database_TestCase {
         $this->assertNotEquals($items, array_reverse($order->getOrder()));
     }
 
-    /**
-     * @expectedException BeaucalQuickUnion\Exception\RuntimeException
-     * @expectedExceptionMessage query must be given a value
-     */
     public function testQueryBlank() {
-        $this->union->query('');
+        $this->assertNull($this->union->query(''));
+        $this->assertNull($this->union->query(false));
+        $this->assertNull($this->union->query(null));
+        $this->assertEquals('0', $this->union->query(0));
+        $this->assertNotNull('0', $this->union->query('0'));
+    }
+
+    public function testQueryInts() {
+        $this->assertEquals('0', $this->union->query(0));
+        $this->assertEquals('10', $this->union->query(10));
+        $this->assertEquals('999999999', $this->union->query(999999999));
     }
 
 }
