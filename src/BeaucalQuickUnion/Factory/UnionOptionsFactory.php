@@ -6,7 +6,7 @@ use BeaucalQuickUnion\Options\Union as UnionOptions;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\ServiceManager\FactoryInterface;
 
-class ThrottleOptionsFactory implements FactoryInterface {
+class UnionOptionsFactory implements FactoryInterface {
 
     const CONFIG_KEY = 'union';
 

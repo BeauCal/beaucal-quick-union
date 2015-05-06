@@ -1,0 +1,33 @@
+<?xml version="1.0" ?>
+<dataset>
+
+	<!-- single -->
+    <beaucal_union item="AAAAA" set="AAAAA" />
+	
+	<!-- pair -->
+    <beaucal_union item="CCCCC" set="CCCCC" />
+    <beaucal_union item="BBBBB" set="CCCCC" />
+	
+	<!-- chain -->
+    <beaucal_union item="FFFFF" set="FFFFF" />
+    <beaucal_union item="EEEEE" set="FFFFF" />
+    <beaucal_union item="DDDDD" set="EEEEE" />
+	
+	<!-- simplest tree -->
+    <beaucal_union item="HHHHH" set="HHHHH" />
+    <beaucal_union item="GGGGG" set="HHHHH" />
+    <beaucal_union item="IIIII" set="HHHHH" />
+	
+	<!-- full tree -->
+    <beaucal_union item="PPPPP" set="PPPPP" />
+    <beaucal_union item="NNNNN" set="PPPPP" />
+    <beaucal_union item="MMMMM" set="NNNNN" />
+    <beaucal_union item="OOOOO" set="NNNNN" />
+    <beaucal_union item="KKKKK" set="PPPPP" />
+    <beaucal_union item="JJJJJ" set="KKKKK" />
+    <beaucal_union item="LLLLL" set="KKKKK" />
+	
+	<!-- separate -->
+    <beaucal_union item="YYYYY" set="YYYYY" />
+    <beaucal_union item="ZZZZZ" set="ZZZZZ" />
+</dataset>

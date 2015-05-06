@@ -8,6 +8,7 @@ use BeaucalQuickUnion\Service\Union;
 use BeaucalQuickUnion\Adapter\Db as UnionDbAdapter;
 use BeaucalQuickUnion\Options\DbAdapter as UnionDbAdapterOptions;
 use BeaucalQuickUnion\Options\Union as UnionOptions;
+use BeaucalQuickUnion\Order\Strategy;
 
 /**
  * @group beaucal_union
@@ -65,7 +66,60 @@ class DbTest extends \PHPUnit_Extensions_Database_TestCase {
     }
 
     protected function getDataSet() {
-        return $this->createFlatXMLDataSet(__DIR__ . '/data/beaucal_union-seed.xml');
+        return $this->createFlatXMLDataSet(__DIR__ . '/../data/beaucal_union-seed.xml');
+    }
+
+    public function testUnionBothNew() {
+        $this->union->union(new Strategy\Directed('new1', 'new2'));
+        $this->assertCount(1, $this->gateway->select(['item' => 'new1']));
+        $this->assertCount(2, $this->gateway->select(['set' => 'new2']));
+    }
+
+    public function testUnionItemNew() {
+        $this->union->union(new Strategy\Directed(
+        'new1', 'AAAAA'
+        ));
+        $this->assertCount(1, $this->gateway->select(['item' => 'new1']));
+        $this->assertCount(2, $this->gateway->select(['set' => 'AAAAA']));
+    }
+
+    public function testUnionSetNew() {
+        $this->union->union(new Strategy\Directed(
+        'AAAAA', 'new1'
+        ));
+        $this->assertCount(1, $this->gateway->select(['item' => 'AAAAA']));
+        $this->assertCount(2, $this->gateway->select(['set' => 'new1']));
+    }
+
+    public function testUnionBothExist1() {
+        $this->union->union(new Strategy\Directed(
+        'YYYYY', 'ZZZZZ'
+        ));
+        $this->assertCount(1, $this->gateway->select(['item' => 'YYYYY']));
+        $this->assertCount(2, $this->gateway->select(['set' => 'ZZZZZ']));
+    }
+
+    public function testUnionBothExist2() {
+        $this->union->union(new Strategy\Directed(
+        'AAAAA', 'BBBBB'
+        ));
+        $this->assertCount(1, $this->gateway->select(['item' => 'AAAAA']));
+        $this->assertCount(3, $this->gateway->select(['set' => 'CCCCC']));
+    }
+
+    public function testUnionFlatten() {
+        $this->union->union(new Strategy\Directed(
+        'AAAAA', 'BBBBB'
+        ));
+        $this->assertCount(1, $this->gateway->select(['item' => 'AAAAA']));
+        $this->assertCount(3, $this->gateway->select(['set' => 'CCCCC']));
+    }
+
+    public function testGetOptions() {
+        $this->assertInstanceOf(
+        'BeaucalQuickUnion\Options\DbAdapter',
+        $this->unionDbAdapter->getOptions()
+        );
     }
 
 }

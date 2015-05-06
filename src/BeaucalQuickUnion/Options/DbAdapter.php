@@ -6,26 +6,9 @@ use Zend\Stdlib\AbstractOptions;
 
 class DbAdapter extends AbstractOptions {
 
-    protected $useTransactions = true;
     protected $dbAdapterClass = 'Zend\Db\Adapter\Adapter';
     protected $dbTable = 'beaucal_union';
     protected $defaultOrderStrategyClass = 'BeaucalQuickUnion\Order\Strategy\Directed';
-
-    /**
-     * @return bool
-     */
-    public function getUseTransactions() {
-        return $this->useTransactions;
-    }
-
-    /**
-     * @param bool $useTransactions
-     * @return DbAdapter
-     */
-    public function setUseTransactions($useTransactions) {
-        $this->useTransactions = $useTransactions;
-        return $this;
-    }
 
     /**
      * @return string

@@ -2,9 +2,7 @@
 
 namespace BeaucalQuickUnion\Service;
 
-use BeaucalQuickUnion\Order\Strategy\AbstractOrder;
-use BeaucalQuickUnion\Order\Strategy\Directed;
-use BeaucalQuickUnion\Order\Strategy\Flatten;
+use BeaucalQuickUnion\Order\Strategy;
 use BeaucalQuickUnion\Adapter\AdapterInterface as UnionAdapterInterface;
 use BeaucalQuickUnion\Exception\RuntimeException;
 
@@ -23,9 +21,9 @@ class Union {
     }
 
     /**
-     * @param AbstractOrder $order
+     * @param Strategy\Directed $order
      */
-    public function union(AbstractOrder $order) {
+    public function union(Strategy\Directed $order) {
 
         /**
          * Find sets (which also ensures each has a record).
@@ -36,7 +34,7 @@ class Union {
             return;
         }
 
-        $this->adapter->union(new Directed($set1, $set2));
+        $this->adapter->union(new Strategy\Flatten($set1, $set2));
     }
 
     /**
@@ -49,11 +47,11 @@ class Union {
         }
 
         /**
-         * Item is root.
+         * Root.
          */
         $set = $this->adapter->getSet($item);
         if (strlen($set) == 0) {
-            $this->adapter->union(new Directed($item, $item));
+            $this->adapter->union(new Strategy\Directed($item, $item));
             $set = $item;
         }
         if ($set == $item) {
@@ -61,10 +59,10 @@ class Union {
         }
 
         /**
-         * Follow the path, flatten a little as we go.
+         * Not root, so flatten path as we go.
          */
-        $setParent = $this->query($set);
-        $this->adapter->union(new Flatten($item, $setParent));
+        $setParent = $this->adapter->getSet($set);
+        $this->adapter->union(new Strategy\Flatten($item, $setParent));
         return $this->query($setParent);
     }
 

@@ -22,7 +22,6 @@ class DbAdapterTest extends \PHPUnit_Framework_TestCase {
 
     public function testDefaults() {
         $defaults = [
-            'use_transactions' => true,
             'db_adapter_class' => 'Zend\Db\Adapter\Adapter',
             'db_table' => 'beaucal_union',
             'default_order_strategy_class' => 'BeaucalQuickUnion\Order\Strategy\Directed',
@@ -34,7 +33,6 @@ class DbAdapterTest extends \PHPUnit_Framework_TestCase {
 
     public function testSetters() {
         $overrides = [
-            'use_transactions' => false,
             'db_adapter_class' => 'another',
             'db_table' => 'another',
             'default_order_strategy_class' => 'another',
@@ -48,9 +46,6 @@ class DbAdapterTest extends \PHPUnit_Framework_TestCase {
     public function testConfigOverrides() {
         $config = require __DIR__ . '/data/beaucalquickunion.local.php';
         $options = new DbAdapterOptions($config['beaucalquickunion']['BeaucalQuickUnion\Adapter\Db']);
-        $this->assertEquals(
-        'use_transactions_another', $options->getUseTransactions()
-        );
         $this->assertEquals(
         'db_adapter_class_another', $options->getDbAdapterClass()
         );

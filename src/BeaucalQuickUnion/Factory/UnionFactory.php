@@ -6,7 +6,7 @@ use BeaucalQuickUnion\Service\Union;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\ServiceManager\FactoryInterface;
 
-class ThrottleFactory implements FactoryInterface {
+class UnionFactory implements FactoryInterface {
 
     public function createService(ServiceLocatorInterface $serviceLocator) {
         $options = $serviceLocator->get('BeaucalQuickUnion\Options\Union');

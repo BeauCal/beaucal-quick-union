@@ -31,23 +31,7 @@ class Db implements UnionAdapterInterface {
         return $this->options;
     }
 
-    public function beginTransaction() {
-        $this->options->getUseTransactions() and $this->getConnection()->beginTransaction();
-    }
-
-    public function commit() {
-        $this->options->getUseTransactions() and $this->getConnection()->commit();
-    }
-
-    public function rollback() {
-        $this->options->getUseTransactions() and $this->getConnection()->rollback();
-    }
-
-    protected function getConnection() {
-        return $this->gateway->getAdapter()->getDriver()->getConnection();
-    }
-
-    public function union(DirectedOrder $order) {
+    public function union(Strategy\Directed $order) {
         list($item['item'], $set['set']) = $order->getOrder();
         if ($order instanceof Strategy\Flatten) {
             $this->gateway->update($set, $item);

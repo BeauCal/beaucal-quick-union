@@ -2,19 +2,13 @@
 
 namespace BeaucalQuickUnion\Adapter;
 
-use BeaucalQuickUnion\Order\Strategy\Directed as DirectedOrder;
+use BeaucalQuickUnion\Order\Strategy;
 
 interface AdapterInterface {
 
     public function getOptions();
 
-    public function beginTransaction();
-
-    public function commit();
-
-    public function rollback();
-
-    public function union(DirectedOrder $order);
+    public function union(Strategy\Directed $order);
 
     /**
      * @param string $item
