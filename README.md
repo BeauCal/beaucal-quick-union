@@ -22,5 +22,20 @@ CREATE TABLE IF NOT EXISTS `beaucal_union` (
 ### To Use
 
 ```PHP
+// in controller
+$union = $this->getServiceLocator()->get('BeaucalQuickUnion');
 
+$union->union('AAA', 'BBB');
+echo $union->query('AAA') == $union->query('BBB'); // TRUE
+echo $union->query('BBB') == $union->query('ZZZ'); // FALSE
+
+$union->union('AAA', 'ZZZ');
+echo $union->query('BBB') == $union->query('ZZZ'); // TRUE
+```
+
+
+If you need completely separate union spaces, item names should be prefixed.
+```PHP
+$union->union('space1::AAA', 'space1::BBB');
+$union->union('space2::AAA', 'space2::BBB');
 ```
