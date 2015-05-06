@@ -35,3 +35,17 @@ echo $union->query('BBB') == $union->query('ZZZ'); // FALSE
 $union->union('AAA', 'ZZZ');
 echo $union->query('BBB') == $union->query('ZZZ'); // TRUE
 ```
+
+
+If you need separate union structures, you can configure a separate
+union + adapter instance and change its database table.
+```PHP
+$adapterOptions = $serviceLocator->get('BeaucalQuickUnion\Options\DbAdapter');
+adapterOptions->setDbTable('beaucal_union_separate');
+$gateway = new TableGateway(
+$adapterOptions->getDbTable(), $serviceLocator->get($adapterOptions->getDbAdapterClass())
+);
+$adapter = new DbAdapter($gateway, $adapterOptions);
+
+$union = new Union($adapter, $unionOptions);
+```
