@@ -236,4 +236,23 @@ class UnionTest extends \PHPUnit_Extensions_Database_TestCase {
         $this->assertEquals('999999999', $this->union->query(999999999));
     }
 
+    /**
+     * @expectedException BeaucalQuickUnion\Exception\LoopException
+     */
+    public function testDetectLoopException() {
+        $this->union->getOptions()->setLoopDamageControl(false);
+        $this->gateway->update(['set' => 'DDDDD'], ['item' => 'FFFFF']);
+        $this->union->query('DDDDD');
+    }
+
+    public function testDetectLoopDamageControl() {
+        $this->gateway->update(['set' => 'DDDDD'], ['item' => 'FFFFF']);
+        $this->assertEquals(
+        $this->union->query('DDDDD'), $this->union->query('FFFFF')
+        );
+        $this->assertEquals(
+        $this->union->query('EEEEE'), $this->union->query('FFFFF')
+        );
+    }
+
 }

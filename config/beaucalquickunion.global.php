@@ -6,14 +6,21 @@
 $dbAdapter = [
 //    'db_adapter_class' => 'Zend\Db\Adapter\Adapter',
 //    'db_table' => 'beaucal_union',
-//    'default_order_strategy_class' => 'BeaucalQuickUnion\Order\Strategy\Directed'
+//    'default_order_strategy_class' => 'BeaucalQuickUnion\Order\Strategy\Directed',
+];
+
+$union = [
+//    'adapter_class' => 'BeaucalQuickUnion\Adapter\Db',
+//
+//    When a node is found to be its own grandparent:
+//    TRUE: just break the loop and carry on
+//    FALSE: throw LoopException
+//    'loop_damage_control' => true
 ];
 
 return [
     'beaucalquickunion' => [
-        'union' => [
-//            'adapter_class' => 'BeaucalQuickUnion\Adapter\Db',
-        ],
+        'union' => $union,
         'BeaucalQuickUnion\Adapter\Db' => $dbAdapter,
     ],
 ];

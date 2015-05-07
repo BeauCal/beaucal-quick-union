@@ -4,8 +4,14 @@ namespace BeaucalQuickUnion\Service;
 
 use BeaucalQuickUnion\Order\Strategy;
 use BeaucalQuickUnion\Adapter\AdapterInterface as UnionAdapterInterface;
+use BeaucalQuickUnion\Exception\LoopException;
+use BeaucalQuickUnion\Options\Union as UnionOptions;
+use Zend\Log\LoggerAwareInterface;
+use Zend\Log\LoggerAwareTrait;
 
-class Union {
+class Union implements LoggerAwareInterface {
+
+    use LoggerAwareTrait;
 
     /**
      * @var UnionAdapterInterface
@@ -13,10 +19,25 @@ class Union {
     protected $adapter;
 
     /**
+     * @var UnionOptions
+     */
+    protected $options;
+
+    /**
      * @param UnionAdapterInterface $adapter
      */
-    public function __construct(UnionAdapterInterface $adapter) {
+    public function __construct(
+    UnionAdapterInterface $adapter, UnionOptions $options
+    ) {
         $this->adapter = $adapter;
+        $this->options = $options;
+    }
+
+    /**
+     * @return UnionOptions
+     */
+    public function getOptions() {
+        return $this->options;
     }
 
     /**
@@ -59,11 +80,46 @@ class Union {
         }
 
         /**
-         * Not root, so flatten path as we go.
+         * Non-root.
          */
-        $setParent = $this->adapter->getSet($set);
-        $this->adapter->union(new Strategy\Flatten($item, $setParent));
-        return $this->query($setParent);
+        return $this->queryInternal($set);
+    }
+
+    /**
+     * @param string $item
+     * @return mixed         String set identifier or null on blank input
+     */
+    protected function queryInternal($item) {
+        $set = $item;
+
+        /**
+         * Follow the path and flatten as we go.
+         * A loop -- which is VERY BAD -- will be detected.
+         */
+        for (;;) {
+            $parent = $this->adapter->getSet($set);
+            if ($parent == $set) {
+                break;
+            }
+
+            /**
+             * Loop found -- VERY BAD.  Can be bandaged up.
+             */
+            $grandparent = $this->adapter->getSet($parent);
+            if ($grandparent == $set) {
+                $alert = __CLASS__ . ": {$set} is its own grandparent";
+                $this->getLogger() and $this->getLogger()->alert($alert);
+
+                if (!$this->options->getLoopDamageControl()) {
+                    throw new LoopException($alert);
+                }
+                $this->adapter->union(new Strategy\Flatten($set, $set));
+                break;
+            }
+            $this->adapter->union(new Strategy\Flatten($set, $grandparent));
+            $set = $grandparent;
+        }
+        return $set;
     }
 
 }
