@@ -6,7 +6,6 @@
 $dbAdapter = [
 //    'db_adapter_class' => 'Zend\Db\Adapter\Adapter',
 //    'db_table' => 'beaucal_union',
-//    'default_order_strategy_class' => 'BeaucalQuickUnion\Order\Strategy\Directed',
 ];
 
 $union = [

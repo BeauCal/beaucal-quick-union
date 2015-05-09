@@ -8,7 +8,6 @@ class DbAdapter extends AbstractOptions {
 
     protected $dbAdapterClass = 'Zend\Db\Adapter\Adapter';
     protected $dbTable = 'beaucal_union';
-    protected $defaultOrderStrategyClass = 'BeaucalQuickUnion\Order\Strategy\Directed';
 
     /**
      * @return string
@@ -39,22 +38,6 @@ class DbAdapter extends AbstractOptions {
      */
     public function setDbTable($dbTable) {
         $this->dbTable = $dbTable;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getDefaultOrderStrategyClass() {
-        return $this->defaultOrderStrategyClass;
-    }
-
-    /**
-     * @param string $defaultOrderStrategyClass
-     * @return DbAdapter
-     */
-    public function setDefaultOrderStrategyClass($defaultOrderStrategyClass) {
-        $this->defaultOrderStrategyClass = $defaultOrderStrategyClass;
         return $this;
     }
 

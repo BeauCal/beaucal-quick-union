@@ -24,7 +24,6 @@ class DbAdapterTest extends \PHPUnit_Framework_TestCase {
         $defaults = [
             'db_adapter_class' => 'Zend\Db\Adapter\Adapter',
             'db_table' => 'beaucal_union',
-            'default_order_strategy_class' => 'BeaucalQuickUnion\Order\Strategy\Directed',
         ];
         foreach ($defaults as $property => $expected) {
             $this->assertEquals($expected, $this->options->{$property});
@@ -35,7 +34,6 @@ class DbAdapterTest extends \PHPUnit_Framework_TestCase {
         $overrides = [
             'db_adapter_class' => 'another',
             'db_table' => 'another',
-            'default_order_strategy_class' => 'another',
         ];
         foreach ($overrides as $property => $override) {
             $this->options->{$property} = $override;
@@ -50,10 +48,6 @@ class DbAdapterTest extends \PHPUnit_Framework_TestCase {
         'db_adapter_class_another', $options->getDbAdapterClass()
         );
         $this->assertEquals('db_table_another', $options->getDbTable());
-        $this->assertEquals(
-        'default_order_strategy_class_another',
-        $options->getDefaultOrderStrategyClass()
-        );
     }
 
 }
