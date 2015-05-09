@@ -1,5 +1,7 @@
 # BeaucalQuickUnion
 
+**Now with 100% code coverage.**
+
 Provides union-find functionality, whether directed or shortest.
 
 ### Installation
