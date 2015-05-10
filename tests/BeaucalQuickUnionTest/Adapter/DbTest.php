@@ -28,7 +28,7 @@ class DbTest extends \PHPUnit_Extensions_Database_TestCase {
     /**
      * @var UnionDbAdapter
      */
-    protected $unionDbAdapter;
+    protected $unionAdapter;
 
     /**
      * @var Union
@@ -42,11 +42,11 @@ class DbTest extends \PHPUnit_Extensions_Database_TestCase {
         $this->gateway = new TableGateway(
         $dbOptions->getDbTable(), $this->getAdapter()
         );
-        $this->unionDbAdapter = new UnionDbAdapter($this->gateway, $dbOptions);
+        $this->unionAdapter = new UnionDbAdapter($this->gateway, $dbOptions);
 
         $unionOptions = new UnionOptions;
         $this->union = new Union(
-        $this->unionDbAdapter, $unionOptions
+        $this->unionAdapter, $unionOptions
         );
     }
 
@@ -108,7 +108,7 @@ class DbTest extends \PHPUnit_Extensions_Database_TestCase {
     }
 
     public function testUnionFlatten() {
-        $this->union->union(new Strategy\Directed(
+        $this->union->union(new Strategy\Flatten(
         'AAAAA', 'BBBBB'
         ));
         $this->assertCount(1, $this->gateway->select(['item' => 'AAAAA']));
@@ -117,8 +117,7 @@ class DbTest extends \PHPUnit_Extensions_Database_TestCase {
 
     public function testGetOptions() {
         $this->assertInstanceOf(
-        'BeaucalQuickUnion\Options\DbAdapter',
-        $this->unionDbAdapter->getOptions()
+        'BeaucalQuickUnion\Options\DbAdapter', $this->unionAdapter->getOptions()
         );
     }
 

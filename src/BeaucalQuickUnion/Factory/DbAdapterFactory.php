@@ -2,7 +2,7 @@
 
 namespace BeaucalQuickUnion\Factory;
 
-use BeaucalQuickUnion\Adapter\Db as DbAdapter;
+use BeaucalQuickUnion\Adapter;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\Db\TableGateway\TableGateway;
@@ -15,7 +15,7 @@ class DbAdapterFactory implements FactoryInterface {
         $options->getDbTable(),
         $serviceLocator->get($options->getDbAdapterClass())
         );
-        return new DbAdapter($gateway, $options);
+        return new Adapter\Db($gateway, $options);
     }
 
 }

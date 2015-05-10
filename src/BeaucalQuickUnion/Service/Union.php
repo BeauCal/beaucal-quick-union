@@ -48,8 +48,9 @@ class Union implements LoggerAwareInterface {
         /**
          * Find sets (which also ensures each has a record).
          */
-        $set1 = $this->query($order->getOrder()[0]);
-        $set2 = $this->query($order->getOrder()[1]);
+        list($item1, $item2) = $order->getOrder();
+        $set1 = $this->query($item1);
+        $set2 = $this->query($item2);
         if ($set1 == $set2) {
             return;
         }
@@ -120,6 +121,13 @@ class Union implements LoggerAwareInterface {
             $set = $grandparent;
         }
         return $set;
+    }
+
+    /**
+     * @return mixed string or null
+     */
+    public function getAdapterClass() {
+        return $this->adapter ? get_class($this->adapter) : null;
     }
 
 }

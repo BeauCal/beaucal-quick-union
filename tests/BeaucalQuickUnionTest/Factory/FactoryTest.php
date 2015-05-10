@@ -70,14 +70,21 @@ class FactoryTest extends \PHPUnit_Framework_TestCase {
 
     public function testUnionFactory() {
         $class = 'BeaucalQuickUnion\Service\Union';
-        $options = $this->serviceManager->get($class);
-        $this->assertInstanceOf($class, $options);
+        $union = $this->serviceManager->get($class);
+        $this->assertInstanceOf($class, $union);
+
+        $this->assertEquals(
+        'BeaucalQuickUnion\Adapter\Db', $union->getAdapterClass()
+        );
+        $this->assertEquals(
+        $union->getOptions()->getAdapterClass(), $union->getAdapterClass()
+        );
 
         /**
          * Alias.
          */
         $this->assertSame(
-        $options, $this->serviceManager->get('BeaucalQuickUnion')
+        $union, $this->serviceManager->get('BeaucalQuickUnion')
         );
     }
 
@@ -85,6 +92,27 @@ class FactoryTest extends \PHPUnit_Framework_TestCase {
         $class = 'BeaucalQuickUnion\Adapter\Db';
         $options = $this->serviceManager->get($class);
         $this->assertInstanceOf($class, $options);
+    }
+
+    public function testUnionMemoryFactory() {
+        $this->serviceManager->setAllowOverride(true);
+        $this->serviceManager->setFactory('Config',
+        function($sm) {
+            return [
+                'beaucalquickunion' => [
+                    'union' => [
+                        'adapter_class' => 'BeaucalQuickUnion\Adapter\Memory'
+                    ]
+                ]
+            ];
+        });
+        $union = $this->serviceManager->get('BeaucalQuickUnion');
+        $this->assertEquals(
+        'BeaucalQuickUnion\Adapter\Memory', $union->getAdapterClass()
+        );
+        $this->assertEquals(
+        $union->getOptions()->getAdapterClass(), $union->getAdapterClass()
+        );
     }
 
 }

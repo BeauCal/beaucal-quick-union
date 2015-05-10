@@ -7,6 +7,9 @@ $dbAdapter = [
 //    'db_adapter_class' => 'Zend\Db\Adapter\Adapter',
 //    'db_table' => 'beaucal_union',
 ];
+$memoryAdapter = [
+//    no options
+];
 
 $union = [
 //    'adapter_class' => 'BeaucalQuickUnion\Adapter\Db',
@@ -21,5 +24,6 @@ return [
     'beaucalquickunion' => [
         'union' => $union,
         'BeaucalQuickUnion\Adapter\Db' => $dbAdapter,
+        'BeaucalQuickUnion\Adapter\Memory' => $memoryAdapter,
     ],
 ];
