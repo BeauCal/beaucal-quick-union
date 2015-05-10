@@ -54,3 +54,14 @@ $adapter = new DbAdapter($gateway, $adapterOptions);
 
 $union = new Union($adapter, $unionOptions);
 ```
+
+### Memory Adapter
+
+If you don't need the functionality between requests -- don't need to persist the structure -- use the Memory adapter, as follows:
+```PHP
+// in beaucalquickunion.global.php
+$union = [
+    'adapter_class' => 'BeaucalQuickUnion\Adapter\Memory',
+// ...
+]
+```
