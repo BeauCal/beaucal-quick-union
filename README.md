@@ -41,8 +41,9 @@ echo $union->query('BBB') == $union->query('ZZZ'); // TRUE
 ```
 
 
-If you need separate union structures, you can configure a separate
-union + adapter instance and change its database table.
+If you need a separate union structure, simply preface each item with a namespace, e.g. `JobID::123 U JobID::456`.
+
+Or for complete separation, configure another union + adapter instance and change its database table.
 ```PHP
 $adapterOptions = $serviceLocator->get('BeaucalQuickUnion\Options\DbAdapter');
 adapterOptions->setDbTable('beaucal_union_separate');
