@@ -30,18 +30,26 @@ ALTER TABLE `beaucal_union` ADD FOREIGN KEY (`set`)
 // in controller
 $union = $this->getServiceLocator()->get('BeaucalQuickUnion');
 
-$union->union(new Strategy\Directed('AAA', 'BBB'));
-echo $union->query('AAA'); // 'BBB'
+$union->union('AAA', 'BBB');
+echo $union->query('AAA'); // 'AAA' or 'BBB', random/set behaviour
 echo $union->query('AAA') == $union->query('BBB'); // TRUE
 echo $union->query('BBB') == $union->query('ZZZ'); // FALSE
 
-$union->union(new Strategy\Random('AAA', 'ZZZ'));
-echo $union->query('AAA'); // either 'BBB' or 'ZZZ', random
+$union->union(new Order\Directed('AAA', 'ZZZ'));
+echo $union->query('AAA'); // 'ZZZ'
 echo $union->query('BBB') == $union->query('ZZZ'); // TRUE
+
+// change from random/set behaviour to known/directed
+// or change via beaucalquickunion.global.php: option order_class
+$union->getOptions()->setOrderClass('BeaucalQuickUnion\Order\Directed');
+$union->union('PPP', 'QQQ');
+echo $union->query('PPP'); // 'QQQ', no longer random
 ```
 
 
-If you need a separate union structure, simply preface each item with a namespace, e.g. `JobID::123 U JobID::456`.
+### Separate Structures
+
+If you need a separate union structure, simply preface each item with a namespace, e.g. `union('JobID::123', 'JobID::456')`.
 
 Or for complete separation, configure another union + adapter instance and change its database table.
 ```PHP
@@ -57,7 +65,7 @@ $union = new Union($adapter, $unionOptions);
 
 ### Memory Adapter
 
-If you don't need the functionality between requests -- don't need to persist the structure -- use the Memory adapter, as follows:
+If you just need a short-lived instance for a single request, use the Memory adapter, as follows:
 ```PHP
 // in beaucalquickunion.global.php
 $union = [
