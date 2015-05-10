@@ -1,6 +1,6 @@
 <?php
 
-namespace BeaucalQuickUnionTest\Order\Strategy;
+namespace BeaucalQuickUnionTest\Order;
 
 use BeaucalQuickUnion\Order;
 
