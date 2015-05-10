@@ -7,6 +7,7 @@ use Zend\Stdlib\AbstractOptions;
 class Union extends AbstractOptions {
 
     protected $adapterClass = 'BeaucalQuickUnion\Adapter\Db';
+    protected $orderClass = 'BeaucalQuickUnion\Order\Set';
     protected $loopDamageControl = true;
 
     /**
@@ -22,6 +23,22 @@ class Union extends AbstractOptions {
      */
     public function setAdapterClass($adapterClass) {
         $this->adapterClass = $adapterClass;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOrderClass() {
+        return $this->orderClass;
+    }
+
+    /**
+     * @param string $orderClass
+     * @return Union
+     */
+    public function setOrderClass($orderClass) {
+        $this->orderClass = $orderClass;
         return $this;
     }
 

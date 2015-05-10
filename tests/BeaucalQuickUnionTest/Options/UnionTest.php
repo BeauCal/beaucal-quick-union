@@ -23,6 +23,7 @@ class UnionTest extends \PHPUnit_Framework_TestCase {
     public function testDefaults() {
         $defaults = [
             'adapter_class' => 'BeaucalQuickUnion\Adapter\Db',
+            'order_class' => 'BeaucalQuickUnion\Order\Set',
             'loop_damage_control' => true,
         ];
         foreach ($defaults as $property => $expected) {
@@ -33,6 +34,7 @@ class UnionTest extends \PHPUnit_Framework_TestCase {
     public function testSetters() {
         $overrides = [
             'adapter_class' => 'another',
+            'order_class' => 'another',
             'loop_damage_control' => 'another',
         ];
         foreach ($overrides as $property => $override) {
@@ -45,6 +47,7 @@ class UnionTest extends \PHPUnit_Framework_TestCase {
         $config = require __DIR__ . '/data/beaucalquickunion.local.php';
         $options = new UnionOptions($config['beaucalquickunion']['union']);
         $this->assertEquals('adapter_class_another', $options->getAdapterClass());
+        $this->assertEquals('order_class_another', $options->getOrderClass());
         $this->assertEquals(
         'loop_damage_control_another', $options->getLoopDamageControl()
         );

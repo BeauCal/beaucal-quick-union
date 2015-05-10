@@ -2,15 +2,15 @@
 
 namespace BeaucalQuickUnionTest\Order\Strategy;
 
-use BeaucalQuickUnion\Order\Strategy;
+use BeaucalQuickUnion\Order;
 
 /**
  * @group beaucal_union
  */
-class RandomTest extends \PHPUnit_Framework_TestCase {
+class SetTest extends \PHPUnit_Framework_TestCase {
 
     public function testSameOrderMultipleCalls() {
-        $random = new Strategy\Random('1', '2');
+        $random = new Order\Set('1', '2');
         $order = $random->getOrder();
         for ($i = 0; $i < 10; $i++) {
             $this->assertSame($order, $random->getOrder());

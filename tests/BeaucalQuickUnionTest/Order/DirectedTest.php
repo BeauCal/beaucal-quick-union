@@ -1,8 +1,8 @@
 <?php
 
-namespace BeaucalQuickUnionTest\Order\Strategy;
+namespace BeaucalQuickUnionTest\Order;
 
-use BeaucalQuickUnion\Order\Strategy;
+use BeaucalQuickUnion\Order;
 
 /**
  * @group beaucal_union
@@ -10,12 +10,12 @@ use BeaucalQuickUnion\Order\Strategy;
 class DirectedTest extends \PHPUnit_Framework_TestCase {
 
     public function testSame() {
-        $directed = new Strategy\Directed('same', 'same');
+        $directed = new Order\Directed('same', 'same');
         $this->assertEquals(['same', 'same'], $directed->getOrder());
     }
 
     public function testDifferent() {
-        $directed = new Strategy\Directed('diff', 'erent');
+        $directed = new Order\Directed('diff', 'erent');
         $this->assertEquals(['diff', 'erent'], $directed->getOrder());
     }
 
@@ -24,7 +24,7 @@ class DirectedTest extends \PHPUnit_Framework_TestCase {
      * @expectedExceptionMessage item is blank
      */
     public function testBlankFirst() {
-        new Strategy\Directed('', 'ok');
+        new Order\Directed('', 'ok');
     }
 
     /**
@@ -32,7 +32,7 @@ class DirectedTest extends \PHPUnit_Framework_TestCase {
      * @expectedExceptionMessage item is blank
      */
     public function testBlankSecond() {
-        new Strategy\Directed('ok', '');
+        new Order\Directed('ok', '');
     }
 
     /**
@@ -40,7 +40,7 @@ class DirectedTest extends \PHPUnit_Framework_TestCase {
      * @expectedExceptionMessage item is blank
      */
     public function testBlankBoth() {
-        new Strategy\Directed('', '');
+        new Order\Directed('', '');
     }
 
 }

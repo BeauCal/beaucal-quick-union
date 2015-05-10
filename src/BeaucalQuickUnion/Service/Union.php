@@ -2,10 +2,11 @@
 
 namespace BeaucalQuickUnion\Service;
 
-use BeaucalQuickUnion\Order\Strategy;
+use BeaucalQuickUnion\Order\AbstractOrder;
 use BeaucalQuickUnion\Adapter\AdapterInterface as UnionAdapterInterface;
 use BeaucalQuickUnion\Exception\LoopException;
 use BeaucalQuickUnion\Options\Union as UnionOptions;
+use BeaucalQuickUnion\Exception;
 use Zend\Log\LoggerAwareInterface;
 use Zend\Log\LoggerAwareTrait;
 
@@ -41,21 +42,38 @@ class Union implements LoggerAwareInterface {
     }
 
     /**
-     * @param Strategy\Directed $order
+     * Provide one AbstractOrder or two strings.
+     *
+     * @param mixed $item1  string or AbstractOrder
+     * @param mixed $item2  string or null
      */
-    public function union(Strategy\Directed $order) {
+    public function union($item1, $item2 = null) {
+
+        /**
+         * Determine order.
+         */
+        if ($item1 instanceof AbstractOrder) {
+            $order = $item1;
+        } else {
+            $orderClass = $this->options->getOrderClass();
+            if (!is_subclass_of(
+            $orderClass, 'BeaucalQuickUnion\Order\AbstractOrder'
+            )) {
+                throw new Exception\OptionException('invalid order_class');
+            }
+            $order = new $orderClass($item1, $item2);
+        }
 
         /**
          * Find sets (which also ensures each has a record).
          */
-        list($item1, $item2) = $order->getOrder();
-        $set1 = $this->query($item1);
-        $set2 = $this->query($item2);
+        $set1 = $this->query($order->getOrder()[0]);
+        $set2 = $this->query($order->getOrder()[1]);
         if ($set1 == $set2) {
             return;
         }
 
-        $this->adapter->union(new Strategy\Flatten($set1, $set2));
+        $this->adapter->setParent($set1, $set2);
     }
 
     /**
@@ -68,22 +86,12 @@ class Union implements LoggerAwareInterface {
             return null;
         }
 
-        /**
-         * Root.
-         */
-        $set = $this->adapter->getSet($item);
+        $set = $this->adapter->getParent($item);
         if (strlen($set) == 0) {
-            $this->adapter->union(new Strategy\Directed($item, $item));
+            $this->adapter->insert($item);
             $set = $item;
         }
-        if ($set == $item) {
-            return $set;
-        }
-
-        /**
-         * Non-root.
-         */
-        return $this->queryInternal($set);
+        return ($set == $item) ? $set : $this->queryInternal($set);
     }
 
     /**
@@ -98,7 +106,7 @@ class Union implements LoggerAwareInterface {
          * A loop -- which is VERY BAD -- will be detected.
          */
         for (;;) {
-            $parent = $this->adapter->getSet($set);
+            $parent = $this->adapter->getParent($set);
             if ($parent == $set) {
                 break;
             }
@@ -106,7 +114,7 @@ class Union implements LoggerAwareInterface {
             /**
              * Loop found -- VERY BAD.  Can be bandaged up.
              */
-            $grandparent = $this->adapter->getSet($parent);
+            $grandparent = $this->adapter->getParent($parent);
             if ($grandparent == $set) {
                 $alert = __CLASS__ . ": {$set} is its own grandparent";
                 $this->getLogger() and $this->getLogger()->alert($alert);
@@ -114,10 +122,10 @@ class Union implements LoggerAwareInterface {
                 if (!$this->options->getLoopDamageControl()) {
                     throw new LoopException($alert);
                 }
-                $this->adapter->union(new Strategy\Flatten($set, $set));
+                $this->adapter->setParent($set, $set);
                 break;
             }
-            $this->adapter->union(new Strategy\Flatten($set, $grandparent));
+            $this->adapter->setParent($set, $grandparent);
             $set = $grandparent;
         }
         return $set;

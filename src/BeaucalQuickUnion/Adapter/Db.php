@@ -3,7 +3,6 @@
 namespace BeaucalQuickUnion\Adapter;
 
 use BeaucalQuickUnion\Adapter\AdapterInterface as UnionAdapterInterface;
-use BeaucalQuickUnion\Order\Strategy;
 use Zend\Db\TableGateway\TableGateway;
 use Zend\Stdlib\AbstractOptions;
 
@@ -31,20 +30,30 @@ class Db implements UnionAdapterInterface {
         return $this->options;
     }
 
-    public function union(Strategy\Directed $order) {
-        list($item['item'], $set['set']) = $order->getOrder();
-        if ($order instanceof Strategy\Flatten) {
-            $this->gateway->update($set, $item);
-            return;
-        }
-        $this->gateway->insert($item + $set);
+    /**
+     * @param string $item
+     */
+    public function insert($item) {
+        $this->gateway->insert([
+            'item' => $item, 'set' => $item
+        ]);
+    }
+
+    /**
+     * @param string $item1
+     * @param string $item2
+     */
+    public function setParent($item1, $item2) {
+        $update['set'] = $item2;
+        $where['item'] = $item1;
+        $this->gateway->update($update, $where);
     }
 
     /**
      * @param string $item
      * @return mixed        string or null
      */
-    public function getSet($item) {
+    public function getParent($item) {
         $resultSet = $this->gateway->select(['item' => $item]);
         return $resultSet->count() ? $resultSet->current()->set : null;
     }

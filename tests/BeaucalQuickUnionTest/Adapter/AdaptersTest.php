@@ -4,7 +4,6 @@ namespace BeaucalQuickUnionTest\Adapter;
 
 use BeaucalQuickUnion\Adapter;
 use BeaucalQuickUnion\Options;
-use BeaucalQuickUnion\Order\Strategy;
 use Zend\Db\TableGateway\TableGateway;
 use Zend\Db\Adapter\Adapter as DbAdapter;
 
@@ -35,35 +34,46 @@ class AdaptersTest extends \PHPUnit_Framework_TestCase {
         $this->adapters[] = new Adapter\Db($gateway, $dbOptions);
 
         // single
-        $this->union(new Strategy\Directed('AAAAA', 'AAAAA'));
+        $this->insert('A');
 
         // pair
-        $this->union(new Strategy\Directed('CCCCC', 'CCCCC'));
-        $this->union(new Strategy\Directed('BBBBB', 'CCCCC'));
+        $this->insert('C');
+        $this->insert('B');
+        $this->setParent('B', 'C');
 
         // chain
-        $this->union(new Strategy\Directed('FFFFF', 'FFFFF'));
-        $this->union(new Strategy\Directed('EEEEE', 'FFFFF'));
-        $this->union(new Strategy\Directed('DDDDD', 'EEEEE'));
+        $this->insert('F');
+        $this->insert('E');
+        $this->insert('D');
+        $this->setParent('E', 'F');
+        $this->setParent('D', 'E');
 
         // simplest tree
-        $this->union(new Strategy\Directed('HHHHH', 'HHHHH'));
-        $this->union(new Strategy\Directed('GGGGG', 'HHHHH'));
-        $this->union(new Strategy\Directed('IIIII', 'HHHHH'));
+        $this->insert('H');
+        $this->insert('G');
+        $this->insert('I');
+        $this->setParent('G', 'H');
+        $this->setParent('I', 'H');
 
 
         // full tree
-        $this->union(new Strategy\Directed('PPPPP', 'PPPPP'));
-        $this->union(new Strategy\Directed('NNNNN', 'PPPPP'));
-        $this->union(new Strategy\Directed('MMMMM', 'NNNNN'));
-        $this->union(new Strategy\Directed('OOOOO', 'NNNNN'));
-        $this->union(new Strategy\Directed('KKKKK', 'PPPPP'));
-        $this->union(new Strategy\Directed('JJJJJ', 'KKKKK'));
-        $this->union(new Strategy\Directed('LLLLL', 'KKKKK'));
+        $this->insert('P');
+        $this->insert('N');
+        $this->insert('M');
+        $this->insert('O');
+        $this->insert('K');
+        $this->insert('J');
+        $this->insert('L');
+        $this->setParent('N', 'P');
+        $this->setParent('M', 'N');
+        $this->setParent('O', 'N');
+        $this->setParent('K', 'P');
+        $this->setParent('J', 'K');
+        $this->setParent('L', 'K');
 
         // more singles
-        $this->union(new Strategy\Directed('YYYYY', 'YYYYY'));
-        $this->union(new Strategy\Directed('ZZZZZ', 'ZZZZZ'));
+        $this->insert('Y');
+        $this->insert('Z');
     }
 
     protected function getAdapter() {
@@ -73,9 +83,15 @@ class AdaptersTest extends \PHPUnit_Framework_TestCase {
         return new DbAdapter($config);
     }
 
-    protected function union(Strategy\Directed $order) {
+    protected function insert($item) {
         foreach ($this->adapters as $adapter) {
-            $adapter->union($order);
+            $adapter->insert($item);
+        }
+    }
+
+    protected function setParent($item1, $item2) {
+        foreach ($this->adapters as $adapter) {
+            $adapter->setParent($item1, $item2);
         }
     }
 
@@ -84,44 +100,46 @@ class AdaptersTest extends \PHPUnit_Framework_TestCase {
      * @param string $item
      * @return mixed        string if all adapters jibe, null if not
      */
-    protected function getSet($item) {
+    protected function getParent($item) {
         $sets = [];
         foreach ($this->adapters as $adapter) {
-            $sets[] = $adapter->getSet($item);
+            $sets[] = $adapter->getParent($item);
         }
         $set = array_unique($sets);
         return (count($set) == 1) ? current($set) : null;
     }
 
     public function testUnionBothNew() {
-        $this->union(new Strategy\Directed('new2', 'new2'));
-        $this->union(new Strategy\Directed('new1', 'new2'));
-        $this->assertEquals('new2', $this->getSet('new1'));
-        $this->assertEquals('new2', $this->getSet('new2'));
+        $this->insert('new1');
+        $this->insert('new2');
+        $this->setParent('new1', 'new2');
+        $this->assertEquals('new2', $this->getParent('new1'));
+        $this->assertEquals('new2', $this->getParent('new2'));
     }
 
     public function testUnionItemNew() {
-        $this->union(new Strategy\Directed('new1', 'AAAAA'));
-        $this->assertEquals('AAAAA', $this->getSet('new1'));
+        $this->insert('new1');
+        $this->setParent('new1', 'A');
+        $this->assertEquals('A', $this->getParent('new1'));
     }
 
     public function testUnionSetNew() {
-        $this->union(new Strategy\Directed('new1', 'new1'));
-        $this->union(new Strategy\Flatten('AAAAA', 'new1'));
-        $this->assertEquals('new1', $this->getSet('AAAAA'));
+        $this->insert('new1');
+        $this->setParent('A', 'new1');
+        $this->assertEquals('new1', $this->getParent('A'));
     }
 
     public function testUnionBothExist1() {
-        $this->union(new Strategy\Flatten('YYYYY', 'ZZZZZ'));
-        $this->assertEquals('ZZZZZ', $this->getSet('YYYYY'));
-        $this->assertEquals('ZZZZZ', $this->getSet('ZZZZZ'));
+        $this->setParent('Y', 'Z');
+        $this->assertEquals('Z', $this->getParent('Y'));
+        $this->assertEquals('Z', $this->getParent('Z'));
     }
 
     public function testUnionBothExist2() {
-        $this->union(new Strategy\Flatten('AAAAA', 'BBBBB'));
-        $this->assertEquals('BBBBB', $this->getSet('AAAAA'));
-        $this->assertEquals('CCCCC', $this->getSet('BBBBB'));
-        $this->assertEquals('CCCCC', $this->getSet('CCCCC'));
+        $this->setParent('A', 'B');
+        $this->assertEquals('B', $this->getParent('A'));
+        $this->assertEquals('C', $this->getParent('B'));
+        $this->assertEquals('C', $this->getParent('C'));
     }
 
 }

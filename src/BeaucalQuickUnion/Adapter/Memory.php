@@ -3,7 +3,6 @@
 namespace BeaucalQuickUnion\Adapter;
 
 use BeaucalQuickUnion\Adapter\AdapterInterface as UnionAdapterInterface;
-use BeaucalQuickUnion\Order\Strategy;
 use Zend\Stdlib\AbstractOptions;
 
 /**
@@ -32,16 +31,26 @@ class Memory implements UnionAdapterInterface {
         return $this->options;
     }
 
-    public function union(Strategy\Directed $order) {
-        list($item, $set) = $order->getOrder();
-        $this->data[$item] = $set;
+    /**
+     * @param string $item
+     */
+    public function insert($item) {
+        $this->data[$item] = $item;
+    }
+
+    /**
+     * @param string $item1
+     * @param string $item2
+     */
+    public function setParent($item1, $item2) {
+        $this->data[$item1] = $item2;
     }
 
     /**
      * @param string $item
      * @return mixed        string or null
      */
-    public function getSet($item) {
+    public function getParent($item) {
         return isset($this->data[$item]) ? $this->data[$item] : null;
     }
 

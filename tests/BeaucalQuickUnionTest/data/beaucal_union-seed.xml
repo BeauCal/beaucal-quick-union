@@ -2,32 +2,32 @@
 <dataset>
 
 	<!-- single -->
-    <beaucal_union item="AAAAA" set="AAAAA" />
+    <beaucal_union item="A" set="A" />
 	
 	<!-- pair -->
-    <beaucal_union item="CCCCC" set="CCCCC" />
-    <beaucal_union item="BBBBB" set="CCCCC" />
+    <beaucal_union item="C" set="C" />
+    <beaucal_union item="B" set="C" />
 	
 	<!-- chain -->
-    <beaucal_union item="FFFFF" set="FFFFF" />
-    <beaucal_union item="EEEEE" set="FFFFF" />
-    <beaucal_union item="DDDDD" set="EEEEE" />
+    <beaucal_union item="F" set="F" />
+    <beaucal_union item="E" set="F" />
+    <beaucal_union item="D" set="E" />
 	
 	<!-- simplest tree -->
-    <beaucal_union item="HHHHH" set="HHHHH" />
-    <beaucal_union item="GGGGG" set="HHHHH" />
-    <beaucal_union item="IIIII" set="HHHHH" />
+    <beaucal_union item="H" set="H" />
+    <beaucal_union item="G" set="H" />
+    <beaucal_union item="I" set="H" />
 	
 	<!-- full tree -->
-    <beaucal_union item="PPPPP" set="PPPPP" />
-    <beaucal_union item="NNNNN" set="PPPPP" />
-    <beaucal_union item="MMMMM" set="NNNNN" />
-    <beaucal_union item="OOOOO" set="NNNNN" />
-    <beaucal_union item="KKKKK" set="PPPPP" />
-    <beaucal_union item="JJJJJ" set="KKKKK" />
-    <beaucal_union item="LLLLL" set="KKKKK" />
+    <beaucal_union item="P" set="P" />
+    <beaucal_union item="N" set="P" />
+    <beaucal_union item="M" set="N" />
+    <beaucal_union item="O" set="N" />
+    <beaucal_union item="K" set="P" />
+    <beaucal_union item="J" set="K" />
+    <beaucal_union item="L" set="K" />
 	
 	<!-- separate -->
-    <beaucal_union item="YYYYY" set="YYYYY" />
-    <beaucal_union item="ZZZZZ" set="ZZZZZ" />
+    <beaucal_union item="Y" set="Y" />
+    <beaucal_union item="Z" set="Z" />
 </dataset>

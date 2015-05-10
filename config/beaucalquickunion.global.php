@@ -14,6 +14,10 @@ $memoryAdapter = [
 $union = [
 //    'adapter_class' => 'BeaucalQuickUnion\Adapter\Db',
 //
+//    Order\Set: order doesn't matter
+//    Order\Directed: order as given
+//    'order_class' => 'BeaucalQuickUnion\Order\Set',
+//
 //    When a node is found to be its own grandparent:
 //    TRUE: just break the loop and carry on
 //    FALSE: throw LoopException

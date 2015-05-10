@@ -1,17 +1,16 @@
 <?php
 
-namespace BeaucalQuickUnion\Order\Strategy;
+namespace BeaucalQuickUnion\Order;
 
 /**
  * Random order keeps union tree balanced.
- * Performs union in true sense of the word.
  */
-class Random extends Directed {
+class Set extends AbstractOrder {
 
     protected $isShuffled = false;
 
     /**
-     * @return string[] Shuffled
+     * @return string[]
      */
     public function getOrder() {
 
