@@ -49,7 +49,7 @@ echo $union->query('PPP'); // 'QQQ', no longer random
 
 ### Separate Structures
 
-If you need a separate union structure, simply preface each item with a namespace, e.g. `union('JobID::123', 'JobID::456')`.
+If you need a separate union space, simply preface each item with a namespace, e.g. `union('JobID::123', 'JobID::456')`.
 
 Or for complete separation, configure another union + adapter instance and change its database table.
 ```PHP
