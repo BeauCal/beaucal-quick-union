@@ -1,21 +1,21 @@
-<phpunit bootstrap="./bootstrap.php"
+<phpunit bootstrap="./tests/bootstrap.php"
          colors="true"
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
          verbose="true"
-         stopOnFailure="true"
+         stopOnFailure="false"
          processIsolation="false"
          backupGlobals="false"
          syntaxCheck="true"
         >
     <testsuite name="BeaucalQuickUnion Test Suite">
-        <directory>./BeaucalQuickUnionTest</directory>
+        <directory>./tests/BeaucalQuickUnionTest</directory>
     </testsuite>
 
     <filter>
         <whitelist>
-            <directory suffix=".php">../src</directory>
+            <directory suffix=".php">./src</directory>
         </whitelist>
     </filter>
 
