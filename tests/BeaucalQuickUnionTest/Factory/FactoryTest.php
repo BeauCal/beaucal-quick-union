@@ -17,8 +17,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase {
      * @var ZendDbAdapter
      */
     protected $adapter;
-
-    const CONFIG_MOCK = ['success'];
+    protected $configMock = ['success'];
 
     public function setUp() {
         parent::setUp();
@@ -35,7 +34,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase {
         $this->serviceManager->setFactory('Config',
         function($sm) {
             return [
-                'beaucalquickunion' => self::CONFIG_MOCK
+                'beaucalquickunion' => $this->configMock
             ];
         });
     }
@@ -53,7 +52,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase {
 
     public function testConfigFactory() {
         $config = $this->serviceManager->get('beaucalquickunion_config');
-        $this->assertEquals(self::CONFIG_MOCK, $config);
+        $this->assertEquals($this->configMock, $config);
     }
 
     public function testDbAdapterOptionsFactory() {
