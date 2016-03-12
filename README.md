@@ -1,5 +1,7 @@
 # BeaucalQuickUnion
 
+[![Build Status](https://travis-ci.org/BeauCal/beaucal-quick-union.svg?branch=master)](https://travis-ci.org/BeauCal/beaucal-quick-union)
+
 **Now with 100% code coverage.**
 
 Provides union-find functionality, whether directed or shortest.
