@@ -7,6 +7,7 @@ return [
         ],
         'factories' => [
             'beaucalquickunion_config' => 'BeaucalQuickUnion\Factory\ConfigFactory',
+            'beaucalquickunion_memory' => 'BeaucalQuickUnion\Factory\MemoryUnionFactory',
             'BeaucalQuickUnion\Service\Union' => 'BeaucalQuickUnion\Factory\UnionFactory',
             'BeaucalQuickUnion\Options\Union' => 'BeaucalQuickUnion\Factory\UnionOptionsFactory',
             'BeaucalQuickUnion\Adapter\Db' => 'BeaucalQuickUnion\Factory\DbAdapterFactory',

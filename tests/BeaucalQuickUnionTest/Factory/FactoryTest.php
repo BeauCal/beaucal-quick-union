@@ -114,4 +114,30 @@ class FactoryTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
+    public function testMemoryUnionFactory() {
+        $this->serviceManager->setAllowOverride(true);
+        $this->serviceManager->setFactory('Config',
+        function($sm) {
+            return [
+                'beaucalquickunion' => [
+                    'union' => [
+                        'adapter_class' => '<overridden>',
+                        'order_class' => 'BeaucalQuickUnion\Order\Directed'
+                    ]
+                ]
+            ];
+        });
+        $union = $this->serviceManager->get('beaucalquickunion_memory');
+        $this->assertEquals(
+        'BeaucalQuickUnion\Adapter\Memory', $union->getAdapterClass()
+        );
+        $this->assertEquals(
+        'BeaucalQuickUnion\Order\Directed',
+        $union->getOptions()->getOrderClass()
+        );
+        $this->assertEquals(
+        $union->getOptions()->getAdapterClass(), $union->getAdapterClass()
+        );
+    }
+
 }

@@ -74,4 +74,11 @@ $union = [
     'adapter_class' => 'BeaucalQuickUnion\Adapter\Memory',
 // ...
 ]
+// in controller
+$union = $this->getServiceLocator()->get('BeaucalQuickUnion');
+
+
+// alternatively, a shortcut factory that doesn't require config
+$throttle = $this->getServiceLocator()->get('BeaucalQuickUnion_Memory');
+
 ```
