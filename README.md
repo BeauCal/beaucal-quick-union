@@ -56,7 +56,7 @@ If you need a separate union space, simply preface each item with a namespace, e
 Or for complete separation, configure another union + adapter instance and change its database table.
 ```PHP
 $adapterOptions = $serviceLocator->get('BeaucalQuickUnion\Options\DbAdapter');
-adapterOptions->setDbTable('beaucal_union_separate');
+$adapterOptions->setDbTable('beaucal_union_separate');
 $gateway = new TableGateway(
 $adapterOptions->getDbTable(), $serviceLocator->get($adapterOptions->getDbAdapterClass())
 );
