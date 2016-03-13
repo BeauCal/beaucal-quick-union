@@ -27,4 +27,7 @@ class MemoryTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
+    /**
+     * All adapters given a good workout in AdaptersTest.
+     */
 }
